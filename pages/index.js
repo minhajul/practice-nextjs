@@ -13,8 +13,6 @@ function Home({tasks}) {
 
         const jsonData = JSON.stringify(data)
 
-        const endpoint = '/api/tasks/create'
-
         const options = {
             method: 'POST',
             headers: {
@@ -23,7 +21,7 @@ function Home({tasks}) {
             body: jsonData,
         }
 
-        const response = await fetch(endpoint, options)
+        const response = await fetch("/api/tasks/create", options)
 
         const result = await response.json()
 
@@ -60,7 +58,9 @@ function Home({tasks}) {
                             <input
                                 id="title"
                                 value={title}
-                                onChange={(e)=>{setTitle(e.target.value)}}
+                                onChange={(e) => {
+                                    setTitle(e.target.value)
+                                }}
                                 type="text"
                                 autoComplete="title"
                                 required
