@@ -1,5 +1,5 @@
 
-export default function Tasks({ tasks }) {
+export default function Task({ tasks }) {
     return (
         <fieldset className="space-y-5 mt-5">
             {tasks.map((task) => {
