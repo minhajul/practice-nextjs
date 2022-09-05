@@ -1,0 +1,35 @@
+import ProductCard from "../../Components/ProductCard";
+import {getAllProducts} from "../../libs/shopify";
+
+export default function ProductPage({product}) {
+    return (
+        <div className="min-h-screen py-12 sm:pt-20">
+            <ProductCard item={product}/>
+        </div>
+    )
+}
+
+export async function getStaticPaths() {
+    const products = await getAllProducts()
+
+    const paths = products.map(item => {
+        const product = String(item.node.handle)
+
+        return {
+            params: {product}
+        }
+    })
+
+    return {
+        paths,
+        fallback: false
+    }
+}
+
+export async function getStaticProps({params}) {
+    const products = await getAllProducts()
+
+    return {
+        props: {products},
+    }
+}
