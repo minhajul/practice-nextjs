@@ -1,8 +1,17 @@
+import React, {useState} from "react";
 import {getAllProducts, getProductByHandle} from "../../libs/shopify";
 import {formatter} from '../../libs/helper'
 
+import {Swiper, SwiperSlide} from "swiper/react";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+
+import {FreeMode, Navigation, Thumbs} from "swiper";
+
 export default function ProductPage({product}) {
-    const {altText, originalSrc} = product.images.edges[0].node
+    const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     const price = product.priceRange.minVariantPrice.amount
 
@@ -11,33 +20,51 @@ export default function ProductPage({product}) {
             <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
                 <div className="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
                     <div className="flex flex-col-reverse">
-                        <div className="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
-                            <div className="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
-                                <button id="tabs-1-tab-1"
-                                        className="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
-                                        aria-controls="tabs-1-panel-1" role="tab" type="button">
-                                    <span className="sr-only"> Angled view </span>
-                                    <span className="absolute inset-0 rounded-md overflow-hidden">
-                <img
-                    src={originalSrc}
-                    alt={altText}
-                    className="w-full h-full object-center object-cover"/>
-              </span>
-                                    <span
-                                        className="ring-transparent absolute inset-0 rounded-md ring-2 ring-offset-2 pointer-events-none"
-                                        aria-hidden="true"></span>
-                                </button>
-                            </div>
-                        </div>
+                        <Swiper
+                            onSwiper={setThumbsSwiper}
+                            loop={true}
+                            spaceBetween={10}
+                            slidesPerView={4}
+                            freeMode={true}
+                            watchSlidesProgress={true}
+                            modules={[FreeMode, Navigation, Thumbs]}
+                            className="mySwiper"
+                        >
+                            {
+                                product.images.edges.map((image, index) => (
+                                    <SwiperSlide key={index}>
+                                        <img
+                                            src={image.node.originalSrc}
+                                            alt={image.node.altText}
+                                        />
+                                    </SwiperSlide>
+                                ))
+                            }
+                        </Swiper>
 
-                        <div className="w-full aspect-w-1 aspect-h-1">
-                            <div id="tabs-1-panel-1" aria-labelledby="tabs-1-tab-1" role="tabpanel" tabIndex="0">
-                                <img
-                                    src={originalSrc}
-                                    alt={altText}
-                                    className="w-full h-full object-center object-cover sm:rounded-lg"/>
-                            </div>
-                        </div>
+                        <Swiper
+                            style={{
+                                "--swiper-navigation-color": "#fff",
+                                "--swiper-pagination-color": "#fff",
+                            }}
+                            loop={true}
+                            spaceBetween={10}
+                            navigation={true}
+                            thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+                            modules={[FreeMode, Navigation, Thumbs]}
+                            className="mySwiper2"
+                        >
+                            {
+                                product.images.edges.map((image, index) => (
+                                    <SwiperSlide key={index}>
+                                        <img
+                                            src={image.node.originalSrc}
+                                            alt={image.node.altText}
+                                        />
+                                    </SwiperSlide>
+                                ))
+                            }
+                        </Swiper>
                     </div>
 
                     <div className="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">

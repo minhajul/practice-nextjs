@@ -42,7 +42,7 @@ export default function Header() {
                     <div className="flex justify-start lg:w-0 lg:flex-1">
                         <Link href="/">
                             <a  className="text-4xl">
-                                Reminders
+                                Next+Shopify Shop
                             </a>
                         </Link>
                     </div>
@@ -88,9 +88,9 @@ export default function Header() {
                         <div className="pt-5 pb-6 px-5">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <Link href="/pages">
+                                    <Link href="/">
                                         <a  className="text-4xl">
-                                            Reminders
+                                            Next+Shopify Shop
                                         </a>
                                     </Link>
                                 </div>
