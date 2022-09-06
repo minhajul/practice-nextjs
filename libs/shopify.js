@@ -20,8 +20,7 @@ async function ShopifyData(query) {
             return response.json()
         })
     } catch (error) {
-        // console.log(error)
-        // throw new Error("Products not fetched")
+        throw new Error("Products not fetched")
     }
 }
 
@@ -56,4 +55,33 @@ export async function getAllProducts() {
     const response = await ShopifyData(query)
 
     return response.data.products.edges ? response.data.products.edges : []
+}
+
+export async function getProductByHandle(handle){
+    const query = `
+ {
+  product(handle: "${handle}"){
+    title
+    description
+    tags
+    priceRange{
+      minVariantPrice {
+        amount
+      }
+    }
+    images(first: 5) {
+    edges {
+      node {
+        originalSrc
+        altText
+      }
+    }
+  }
+    updatedAt
+  }
+}`
+
+    const response = await ShopifyData(query, handle)
+
+    return response.data.product ? response.data.product : []
 }
